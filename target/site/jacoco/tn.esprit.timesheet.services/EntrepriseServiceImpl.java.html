@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EntrepriseServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">timesheet</a> &gt; <a href="index.source.html" class="el_package">tn.esprit.timesheet.services</a> &gt; <span class="el_source">EntrepriseServiceImpl.java</span></div><h1>EntrepriseServiceImpl.java</h1><pre class="source lang-java linenums">package tn.esprit.timesheet.services;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import tn.esprit.timesheet.entities.Departement;
+import tn.esprit.timesheet.entities.Entreprise;
+import tn.esprit.timesheet.repository.DepartementRepository;
+import tn.esprit.timesheet.repository.EntrepriseRepository;
+
+@Service
+<span class="fc" id="L17">public class EntrepriseServiceImpl implements IEntrepriseService {</span>
+
+	@Autowired
+    EntrepriseRepository entrepriseRepoistory;
+	@Autowired
+	DepartementRepository deptRepoistory;
+	
+	public int ajouterEntreprise(Entreprise entreprise) {
+<span class="fc" id="L25">		entrepriseRepoistory.save(entreprise);</span>
+<span class="fc" id="L26">		return entreprise.getId();</span>
+	}
+
+	public int ajouterDepartement(Departement dep) {
+<span class="nc" id="L30">		deptRepoistory.save(dep);</span>
+<span class="nc" id="L31">		return dep.getId();</span>
+	}
+	
+	public void affecterDepartementAEntreprise(int depId, int entrepriseId) {
+<span class="nc" id="L35">				Optional&lt;Entreprise&gt; oe = entrepriseRepoistory.findById(entrepriseId);</span>
+<span class="nc" id="L36">				Optional&lt;Departement&gt; od = deptRepoistory.findById(depId);</span>
+<span class="nc bnc" id="L37" title="All 4 branches missed.">				if(oe.isPresent()&amp;&amp;od.isPresent()){</span>
+<span class="nc" id="L38">					Entreprise entrepriseManagedEntity =oe.get();</span>
+<span class="nc" id="L39">					Departement depManagedEntity = od.get();</span>
+					
+<span class="nc" id="L41">					depManagedEntity.setEntreprise(entrepriseManagedEntity);</span>
+<span class="nc" id="L42">					deptRepoistory.save(depManagedEntity);</span>
+				}
+			
+		
+<span class="nc" id="L46">	}</span>
+	
+	public List&lt;String&gt; getAllDepartementsNamesByEntreprise(int entrepriseId) {
+<span class="nc" id="L49">		Optional&lt;Entreprise&gt; oe = entrepriseRepoistory.findById(entrepriseId);</span>
+<span class="nc" id="L50">		List&lt;String&gt; depNames = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">		if(oe.isPresent()){</span>
+<span class="nc" id="L52">			Entreprise entrepriseManagedEntity = oe.get();</span>
+			
+<span class="nc bnc" id="L54" title="All 2 branches missed.">			for(Departement dep : entrepriseManagedEntity.getDepartements()){</span>
+<span class="nc" id="L55">				depNames.add(dep.getName());</span>
+<span class="nc" id="L56">			}</span>
+			
+<span class="nc" id="L58">			return depNames;</span>
+		}
+<span class="nc" id="L60">		return depNames;</span>
+		}
+		
+
+	@Transactional
+	public void deleteEntrepriseById(int entrepriseId) {
+<span class="nc" id="L66">		Optional&lt;Entreprise&gt; oe = entrepriseRepoistory.findById(entrepriseId);</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">		if(oe.isPresent()){</span>
+<span class="nc" id="L68">			entrepriseRepoistory.delete(oe.get());	</span>
+		}
+		
+<span class="nc" id="L71">	}</span>
+
+	@Transactional
+	public void deleteDepartementById(int depId) {
+<span class="nc" id="L75">		Optional&lt;Departement&gt; od = deptRepoistory.findById(depId) ; </span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">		if(od.isPresent()){</span>
+<span class="nc" id="L77">			deptRepoistory.delete(od.get());	</span>
+		}
+		
+<span class="nc" id="L80">	}</span>
+
+
+	public Entreprise getEntrepriseById(int entrepriseId) {
+<span class="nc" id="L84">		Optional&lt;Entreprise&gt; oe = entrepriseRepoistory.findById(entrepriseId);</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">		if(oe.isPresent()){</span>
+<span class="nc" id="L86">			return oe.get();	</span>
+		}
+<span class="nc" id="L88">		return null ;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

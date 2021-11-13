@@ -1,0 +1,6 @@
+projectKey=tn.esprit.timesheet:timesheet
+serverUrl=http://localhost:9000
+serverVersion=6.7.7.38951
+dashboardUrl=http://localhost:9000/dashboard/index/tn.esprit.timesheet:timesheet
+ceTaskId=AX0bjo3gck-uc0nt-el2
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AX0bjo3gck-uc0nt-el2
